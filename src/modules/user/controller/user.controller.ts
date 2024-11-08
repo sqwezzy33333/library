@@ -1,16 +1,16 @@
 import {
   BadRequestException,
   Body,
-  Controller,
+  Controller, Delete, ForbiddenException,
   Get,
   HttpCode,
   NotFoundException,
   Param,
-  Post,
+  Post, Put,
   ValidationPipe,
 } from "@nestjs/common";
 import { UserService } from "../service/user.service";
-import { CreateUserDto } from "../models";
+import { CreateUserDto, UpdatePasswordDto } from "../models";
 import { isUUID } from "class-validator";
 
 @Controller("user")
@@ -40,6 +40,33 @@ export class UserController {
       throw new NotFoundException("User not found");
     }
     return user;
+  }
+
+  @Delete(":id")
+  async deleteOne(@Param("id") id: string) {
+    if (!isUUID(id)) {
+      throw new BadRequestException("Invalid UUID");
+    }
+    const user = this.userService.isUser(id);
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+    return this.userService.deleteUser(user);
+  }
+
+  @Put(":id")
+  async editUser(@Param("id") id: string, @Body(ValidationPipe) body: UpdatePasswordDto) {
+    if (!isUUID(id)) {
+      throw new BadRequestException("Invalid UUID");
+    }
+    const user = this.userService.isUser(id);
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+    if(body.oldPassword !== user.password) {
+      throw new ForbiddenException("Incorrect password");
+    }
+    return this.userService.editUser(user, body.newPassword);
   }
 
   constructor(private userService: UserService) {

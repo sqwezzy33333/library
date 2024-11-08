@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { db } from "../../../db/db";
-import { CreateUserDto } from "../models";
+import { CreateUserDto, User } from "../models";
 import { generateUid } from "../../../shared/utils";
 
 @Injectable()
@@ -8,6 +8,17 @@ export class UserService {
 
   getUsers() {
     return db.users;
+  }
+
+  deleteUser(user: User) {
+    db.users.splice(db.users.indexOf(user));
+  }
+
+  editUser(user: User, newPass: string) {
+    user.password = newPass;
+    user.updatedAt = new Date().getTime();
+    user.version++;
+    return user;
   }
 
   addUser(userDto: CreateUserDto) {
