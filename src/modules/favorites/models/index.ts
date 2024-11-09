@@ -1,5 +1,9 @@
+import { Track } from "../../track/models";
+import { Artist } from "../../artist/models";
+import { Album } from "../../album/models";
+
 export interface Favorites {
-  artists: string[];
-  albums: string[];
-  tracks: string[];
+  artists: Artist[];
+  albums: Album[];
+  tracks: Track[];
 }

@@ -1,6 +1,10 @@
 import { Module } from "@nestjs/common";
+import { FavoritesController } from "./controller/favorites.controller";
+import { FavoritesService } from "./service/favorites.service";
 
 @Module({
-  imports: [],
+  controllers: [FavoritesController],
+  providers: [FavoritesService],
 })
-export class FavoritesModule {}
+export class FavoritesModule {
+}

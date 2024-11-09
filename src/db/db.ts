@@ -8,8 +8,12 @@ class DB {
   users: User[] = [];
   albums: Album[] = [];
   artists: Artist[] = [];
-  favorites: Favorites[] = [];
   tracks: Track[] = [];
+  favorites: Favorites = {
+    tracks: [],
+    artists: [],
+    albums: []
+  };
 };
 
 export const db = new DB();

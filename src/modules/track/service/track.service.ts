@@ -12,6 +12,7 @@ export class TrackService {
 
   deleteTrack(track: Track) {
     db.tracks.splice(db.tracks.indexOf(track), 1);
+    db.favorites.tracks = db.favorites.tracks.filter(favTrack => favTrack.id !== track.id);
   }
 
   editTrack(track: Track, trackDto: TrackDto) {
