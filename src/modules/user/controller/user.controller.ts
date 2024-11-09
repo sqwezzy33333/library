@@ -43,6 +43,7 @@ export class UserController {
   }
 
   @Delete(":id")
+  @HttpCode(204)
   async deleteOne(@Param("id") id: string) {
     if (!isUUID(id)) {
       throw new BadRequestException("Invalid UUID");

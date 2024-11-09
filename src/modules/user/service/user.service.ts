@@ -18,7 +18,9 @@ export class UserService {
     user.password = newPass;
     user.updatedAt = new Date().getTime();
     user.version++;
-    return user;
+    const clone = {...user};
+    delete clone.password;
+    return clone;
   }
 
   addUser(userDto: CreateUserDto) {
@@ -30,7 +32,9 @@ export class UserService {
       updatedAt: new Date().getTime(),
     };
     db.users.push(user);
-    return user;
+    const clone = {...user};
+    delete clone.password;
+    return clone;
   }
 
   isUser(id: string) {
