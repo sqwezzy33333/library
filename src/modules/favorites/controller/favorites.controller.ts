@@ -31,7 +31,7 @@ export class FavoritesController {
     if (!track) {
       throw new UnprocessableEntityException('Track not found');
     }
-    return this.favoritesService.addTrack(track);
+    return this.favoritesService.addTrack(track.id);
   }
 
   @Delete('track/:id')
@@ -44,7 +44,7 @@ export class FavoritesController {
     if (!track) {
       throw new UnprocessableEntityException('Track not found');
     }
-    return this.favoritesService.deleteTrack(track);
+    return this.favoritesService.deleteTrack(track.id);
   }
 
   @Post('album/:id')
@@ -56,7 +56,7 @@ export class FavoritesController {
     if (!album) {
       throw new UnprocessableEntityException('Track not found');
     }
-    return this.favoritesService.addAlbum(album);
+    return this.favoritesService.addAlbum(album.id);
   }
 
   @Delete('album/:id')
@@ -69,7 +69,7 @@ export class FavoritesController {
     if (!album) {
       throw new UnprocessableEntityException('Track not found');
     }
-    return this.favoritesService.deleteAlbum(album);
+    return this.favoritesService.deleteAlbum(album.id);
   }
 
   @Post('artist/:id')
@@ -81,7 +81,7 @@ export class FavoritesController {
     if (!artist) {
       throw new UnprocessableEntityException('Track not found');
     }
-    return this.favoritesService.addArtist(artist);
+    return this.favoritesService.addArtist(artist.id);
   }
 
   @Delete('artist/:id')
@@ -94,7 +94,7 @@ export class FavoritesController {
     if (!artist) {
       throw new UnprocessableEntityException('Track not found');
     }
-    return this.favoritesService.deleteArtist(artist);
+    return this.favoritesService.deleteArtist(artist.id);
   }
 
   constructor(

@@ -1,8 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { db } from "../../../db/db";
-import { Track } from "../../track/models";
-import { Album } from "../../album/models";
-import { Artist } from "../../artist/models";
 
 @Injectable()
 export class FavoritesService {
@@ -18,21 +15,21 @@ export class FavoritesService {
     return db.albums.find((track) => track.id === id);
   }
 
-  addTrack(track: Track) {
+  addTrack(track: string) {
     return db.favorites.tracks.push(track);
   }
 
-  deleteTrack(track: Track) {
-    const index = db.favorites.tracks.findIndex((element) => element.id === track.id);
+  deleteTrack(track: string) {
+    const index = db.favorites.tracks.indexOf(track);
     db.favorites.tracks.splice(index, 1);
   }
 
-  addAlbum(album: Album) {
+  addAlbum(album: string) {
     return db.favorites.albums.push(album);
   }
 
-  deleteAlbum(album: Album) {
-    const index = db.favorites.albums.findIndex((element) => element.id === album.id);
+  deleteAlbum(album: string) {
+    const index = db.favorites.albums.indexOf(album);
     db.favorites.albums.splice(index, 1);
   }
 
@@ -40,12 +37,12 @@ export class FavoritesService {
     return db.artists.find((track) => track.id === id);
   }
 
-  addArtist(artist: Artist) {
+  addArtist(artist: string) {
     return db.favorites.artists.push(artist);
   }
 
-  deleteArtist(artist: Artist) {
-    const index = db.favorites.artists.findIndex((element) => element.id === artist.id);
+  deleteArtist(artist: string) {
+    const index = db.favorites.artists.indexOf(artist);
     db.favorites.artists.splice(index, 1);
   }
 }
