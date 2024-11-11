@@ -25,6 +25,7 @@ export class UserController {
 
   @Post()
   @HttpCode(201)
+  @ApiOkResponse({ description: 'Return user', type: UserResponse })
   async createUser(
     @Body(ValidationPipe) createUserDto: CreateUserDto,
   ) {
