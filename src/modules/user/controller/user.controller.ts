@@ -10,13 +10,15 @@ import {
   ValidationPipe,
 } from "@nestjs/common";
 import { UserService } from "../service/user.service";
-import { CreateUserDto, UpdatePasswordDto } from "../models";
+import { CreateUserDto, UpdatePasswordDto, UserResponse } from '../models';
 import { isUUID } from "class-validator";
+import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller("user")
 export class UserController {
 
   @Get()
+  @ApiOkResponse({ description: 'Returns users.', type: [UserResponse] })
   getUsers() {
     return this.userService.getUsers();
   }
@@ -30,6 +32,7 @@ export class UserController {
   }
 
   @Get(":id")
+  @ApiOkResponse({ description: 'Return user', type: UserResponse })
   async findOne(@Param("id") id: string) {
     const user = this.userService.isUser(id);
     if (!isUUID(id)) {
@@ -56,6 +59,7 @@ export class UserController {
   }
 
   @Put(":id")
+  @ApiOkResponse({ description: 'Edit user', type: UserResponse })
   async editUser(@Param("id") id: string, @Body(ValidationPipe) body: UpdatePasswordDto) {
     if (!isUUID(id)) {
       throw new BadRequestException("Invalid UUID");

@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
 
 export interface Album {
   id: string;
@@ -8,10 +9,12 @@ export interface Album {
 }
 
 export class AlbumDto {
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   name: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
   year: number;
