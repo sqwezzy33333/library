@@ -23,7 +23,7 @@ export class ArtistService {
         album.artistId = null;
       }
     })
-    db.favorites.artists = db.favorites.artists.filter(favArtist => favArtist.id !== artist.id);
+    db.favorites.artists = db.favorites.artists.filter(favArtist => favArtist !== artist.id);
   }
 
   editArtist(artist: Artist, artistDto: ArtistDto) {

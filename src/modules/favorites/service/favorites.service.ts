@@ -1,10 +1,16 @@
-import { Injectable } from "@nestjs/common";
-import { db } from "../../../db/db";
+import { Injectable } from '@nestjs/common';
+import { db } from '../../../db/db';
+import { FavoritesResponse } from '../models';
 
 @Injectable()
 export class FavoritesService {
-  getAll() {
-    return db.favorites;
+
+  getAll(): FavoritesResponse {
+    return {
+      tracks: db.favorites.tracks.map((id) => db.tracks.find((element) => element.id === id)),
+      albums: db.favorites.albums.map((id) => db.albums.find((element) => element.id === id)),
+      artists: db.favorites.artists.map((id) => db.artists.find((element) => element.id === id)),
+    };
   }
 
   isTrack(id: string) {

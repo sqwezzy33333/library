@@ -7,12 +7,12 @@ import { Track, TrackDto } from "../models";
 export class TrackService {
 
   getTracks() {
-    return db.users;
+    return db.tracks;
   }
 
   deleteTrack(track: Track) {
     db.tracks.splice(db.tracks.indexOf(track), 1);
-    db.favorites.tracks = db.favorites.tracks.filter(favTrack => favTrack.id !== track.id);
+    db.favorites.tracks = db.favorites.tracks.filter(favTrack => favTrack !== track.id);
   }
 
   editTrack(track: Track, trackDto: TrackDto) {

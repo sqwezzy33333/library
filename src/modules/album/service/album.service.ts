@@ -7,7 +7,7 @@ import { Album, AlbumDto } from "../models";
 export class AlbumService {
 
   getAlbums() {
-    return db.users;
+    return db.albums;
   }
 
   deleteAlbum(album: Album) {
@@ -18,7 +18,7 @@ export class AlbumService {
       }
     });
 
-    db.favorites.albums = db.favorites.albums.filter(favAlbum => favAlbum.id !== album.id);
+    db.favorites.albums = db.favorites.albums.filter(favAlbum => favAlbum !== album.id);
   }
 
   editAlbum(album: Album, albumDto: AlbumDto) {

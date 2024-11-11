@@ -31,7 +31,7 @@ export class FavoritesController {
     if (!track) {
       throw new UnprocessableEntityException('Track not found');
     }
-    return this.favoritesService.addTrack(track.id);
+    this.favoritesService.addTrack(track.id);
   }
 
   @Delete('track/:id')
@@ -44,7 +44,7 @@ export class FavoritesController {
     if (!track) {
       throw new UnprocessableEntityException('Track not found');
     }
-    return this.favoritesService.deleteTrack(track.id);
+    this.favoritesService.deleteTrack(track.id);
   }
 
   @Post('album/:id')
@@ -54,9 +54,9 @@ export class FavoritesController {
     }
     const album = this.favoritesService.isAlbum(id);
     if (!album) {
-      throw new UnprocessableEntityException('Track not found');
+      throw new UnprocessableEntityException('Album not found');
     }
-    return this.favoritesService.addAlbum(album.id);
+   this.favoritesService.addAlbum(album.id);
   }
 
   @Delete('album/:id')
@@ -67,9 +67,9 @@ export class FavoritesController {
     }
     const album = this.favoritesService.isAlbum(id);
     if (!album) {
-      throw new UnprocessableEntityException('Track not found');
+      throw new UnprocessableEntityException('Album not found');
     }
-    return this.favoritesService.deleteAlbum(album.id);
+    this.favoritesService.deleteAlbum(album.id);
   }
 
   @Post('artist/:id')
@@ -79,9 +79,9 @@ export class FavoritesController {
     }
     const artist = this.favoritesService.isArtist(id);
     if (!artist) {
-      throw new UnprocessableEntityException('Track not found');
+      throw new UnprocessableEntityException('Artist not found');
     }
-    return this.favoritesService.addArtist(artist.id);
+    this.favoritesService.addArtist(artist.id);
   }
 
   @Delete('artist/:id')
@@ -92,9 +92,9 @@ export class FavoritesController {
     }
     const artist = this.favoritesService.isArtist(id);
     if (!artist) {
-      throw new UnprocessableEntityException('Track not found');
+      throw new UnprocessableEntityException('Artist not found');
     }
-    return this.favoritesService.deleteArtist(artist.id);
+    this.favoritesService.deleteArtist(artist.id);
   }
 
   constructor(
