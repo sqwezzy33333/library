@@ -14,6 +14,6 @@ class DB {
     artists: [],
     albums: []
   };
-};
+}
 
 export const db = new DB();
