@@ -18,3 +18,17 @@ export class ArtistDto {
   @IsBoolean()
   grammy: boolean;
 }
+
+
+export class ArtistResponse implements Artist{
+  @ApiProperty({
+    default: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
+  })
+  id: string;
+
+  @ApiProperty()
+  name: string;
+
+  @ApiProperty({ type: 'boolean' })
+  grammy: boolean
+}

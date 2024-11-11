@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { db } from "../../../db/db";
 import { generateUid } from "../../../shared/utils";
 import { Artist, ArtistDto } from "../models";
-import { ArtistController } from "../controller/artist.controller";
 
 @Injectable()
 export class ArtistService {

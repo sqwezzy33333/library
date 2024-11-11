@@ -11,17 +11,20 @@ import {
 } from "@nestjs/common";
 import { ArtistService } from "../service/artist.service";
 import { isUUID } from "class-validator";
-import { ArtistDto } from "../models";
+import { ArtistDto, ArtistResponse } from '../models';
+import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller("artist")
 export class ArtistController {
 
   @Get()
+  @ApiOkResponse({ type: [ArtistResponse] })
   getArtists() {
     return this.artistService.getArtists();
   }
 
   @Post()
+  @ApiOkResponse({ type: ArtistResponse })
   @HttpCode(201)
   async createArtist(
     @Body(ValidationPipe) createArtistDto: ArtistDto,
@@ -30,6 +33,7 @@ export class ArtistController {
   }
 
   @Get(":id")
+  @ApiOkResponse({ type: ArtistResponse })
   async findOne(@Param("id") id: string) {
     const artist = this.artistService.isArtist(id);
     if (!isUUID(id)) {
@@ -56,6 +60,7 @@ export class ArtistController {
   }
 
   @Put(":id")
+  @ApiOkResponse({ type: ArtistResponse })
   async editArtist(@Param("id") id: string, @Body(ValidationPipe) body: ArtistDto) {
     if (!isUUID(id)) {
       throw new BadRequestException("Invalid UUID");
