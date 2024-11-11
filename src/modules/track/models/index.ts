@@ -9,6 +9,23 @@ export interface Track {
   duration: number;
 }
 
+export class TrackResponse {
+  @ApiProperty()
+  id: string;
+
+  @ApiProperty()
+  name: string;
+
+  @ApiProperty({ nullable: true })
+  artistId: string | null;
+
+  @ApiProperty({ nullable: true })
+  albumId: string | null;
+
+  @ApiProperty()
+  duration: number;
+}
+
 export class TrackDto {
   @ApiProperty()
   @IsString()
