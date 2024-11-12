@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { db } from "../../../db/db";
-import { generateUid } from "../../../shared/utils";
-import { Track, TrackDto } from "../models";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { db } from '../../../db/db';
+import { generateUid } from '../../../shared/utils';
+import { Track, TrackDto } from '../models';
 import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
@@ -11,24 +11,51 @@ export class TrackService {
     return this.prisma.track.findMany();
   }
 
-  deleteTrack(track: Track) {
-    db.tracks.splice(db.tracks.indexOf(track), 1);
-    db.favorites.tracks = db.favorites.tracks.filter(favTrack => favTrack.id !== track.id);
+  async exist(id: string) {
+    return this.prisma.track.findUnique({ where: { id } })
   }
 
-  editTrack(track: Track, trackDto: TrackDto) {
-    track = { ...trackDto, id: track.id };
-    return track
+  async deleteTrack(id: string) {
+    return this.prisma.track.delete({
+      where: {
+        id,
+      },
+    });
   }
 
-  addTrack(trackDto: TrackDto) {
+  editTrack(id: string, trackDto: TrackDto) {
+    const newTrack = { ...trackDto, id };
+
+    return this.prisma.track.update({
+      data: newTrack,
+      where: {
+        id
+      }
+    });
+  }
+
+  async getTrack(id: string) {
+    const track = await this.prisma.track.findUnique({
+      where: { id: id },
+    });
+    if (!track) {
+      return new NotFoundException('No track');
+    }
+    return track;
+
+  }
+
+
+  async addTrack(trackDto: TrackDto) {
     const track: Track = {
       artistId: null,
       albumId: null,
       ...trackDto,
       id: generateUid(),
     };
-    db.tracks.push(track);
+    await this.prisma.track.create({
+      data: track,
+    });
     return track;
   }
 

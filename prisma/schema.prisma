@@ -8,37 +8,31 @@ datasource db {
 }
 
 model User {
-  id String @db.Uuid  @id
-  login String
-  password String
-  varsion Int
+  id        String @id @db.Uuid
+  login     String
+  password  String
+  varsion   Int
   createdAt Int
   updatedAt Int
 }
 
 model Track {
-  id String @db.Uuid @id
-  name String
-  artistUd String?
-  albumId String?
+  id       String  @id @db.Uuid
+  name     String
+  artistId String?
+  albumId  String?
   duration Int
 }
 
 model Artist {
-  id String @db.Uuid @id
-  name String
+  id     String  @id @db.Uuid
+  name   String
   grammy Boolean
 }
 
 model Album {
-  id String @db.Uuid  @id
-  name String
-  year Int
+  id       String  @id @db.Uuid
+  name     String
+  year     Int
   artistId String?
-}
-
-model Favorites_Artist {
-  id String @db.Uuid @id
-  name String
-  grammy Boolean
 }
