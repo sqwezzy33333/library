@@ -15,7 +15,6 @@ services:
     command: npm run start
     depends_on:
       - postgres
-    restart: always
   postgres:
     container_name: postgres
     image: postgres
@@ -27,6 +26,5 @@ services:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     volumes:
       - pgdata:/var/lib/postgresql/data
-    restart: always
 volumes:
   pgdata:

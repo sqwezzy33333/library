@@ -2,12 +2,13 @@ import { Injectable } from "@nestjs/common";
 import { db } from "../../../db/db";
 import { generateUid } from "../../../shared/utils";
 import { Track, TrackDto } from "../models";
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class TrackService {
 
   getTracks() {
-    return db.users;
+    return this.prisma.track.findMany();
   }
 
   deleteTrack(track: Track) {
@@ -35,4 +36,6 @@ export class TrackService {
     return db.tracks.find(x => x.id === id);
   }
 
+  constructor(private prisma: PrismaService) {
+  }
 }
