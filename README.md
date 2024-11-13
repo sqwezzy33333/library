@@ -46,6 +46,5 @@ npm run test
 
 ```
 After starting the app on port (4000 as default) you can open in your
-browser Swagger OpenAPI documentation by typing
-**http://localhost:4000/api-docs/**
+browser Swagger OpenAPI documentation by typing mhttp://localhost:4000/api-docs
 ```
