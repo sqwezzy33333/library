@@ -1,13 +1,13 @@
 version: '3.0'
 
 services:
-#  main:
-#    container_name: main
-#    build:
-#      context: .
-#    command: npm run start
-#    ports:
-#      - ${PORT}:${PORT}
+  main:
+    container_name: main
+    build:
+      context: .
+    command: npm run start
+    ports:
+      - ${PORT}:${PORT}
   postgres:
     container_name: postgres
     image: postgres
