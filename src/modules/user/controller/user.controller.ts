@@ -13,7 +13,7 @@ import { UserService } from "../service/user.service";
 import { CreateUserDto, UpdatePasswordDto, UserFromDb, UserResponse } from '../models';
 import { isUUID } from "class-validator";
 import { ApiOkResponse } from '@nestjs/swagger';
-import { User } from '@prisma/client';
+import { User, Prisma } from '@prisma/client';
 
 @Controller("user")
 export class UserController {
@@ -36,7 +36,7 @@ export class UserController {
   @Get(":id")
   @ApiOkResponse({ description: 'Return user', type: UserResponse })
   async findOne(@Param("id") id: string) {
-    const user: UserFromDb = await this.userService.isUser(id);
+    const user: User = await this.userService.isUser(id);
     if (!isUUID(id)) {
       throw new BadRequestException("Invalid UUID");
     }
@@ -44,7 +44,7 @@ export class UserController {
     if (!user) {
       throw new NotFoundException("User not found");
     }
-    return this.userService.pipeUser(user);
+    return user;
   }
 
   @Delete(":id")
