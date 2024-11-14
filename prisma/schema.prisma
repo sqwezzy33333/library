@@ -11,9 +11,9 @@ model User {
   id        String @id @db.Uuid
   login     String
   password  String
-  varsion   Int
-  createdAt Int
-  updatedAt Int
+  version   Int
+  createdAt String
+  updatedAt String
 }
 
 model Track {
@@ -35,4 +35,16 @@ model Album {
   name     String
   year     Int
   artistId String?
+}
+
+model Album_Favorite {
+  id String @id @db.Uuid
+}
+
+model Track_Favorite {
+  id String @id @db.Uuid
+}
+
+model Artist_Favorite {
+  id String @id @db.Uuid
 }

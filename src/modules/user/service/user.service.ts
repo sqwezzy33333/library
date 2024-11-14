@@ -1,44 +1,80 @@
-import { Injectable } from "@nestjs/common";
-import { db } from "../../../db/db";
-import { CreateUserDto, User } from "../models";
-import { generateUid } from "../../../shared/utils";
+import { Injectable } from '@nestjs/common';
+import { CreateUserDto, User, UserFromDb } from '../models';
+import { generateUid } from '../../../shared/utils';
+import { PrismaService } from '../../../prisma/prisma.service';
 
 @Injectable()
 export class UserService {
 
-  getUsers() {
-    return db.users;
+  async getUsers(): Promise<User[]> {
+    const users = await this.prisma.user.findMany();
+    return users.map((user) => {
+      delete user.password;
+      return {
+        ...user,
+        updatedAt: +user.updatedAt,
+        createdAt: +user.createdAt
+      };
+    });
   }
 
-  deleteUser(user: User) {
-    db.users.splice(db.users.indexOf(user));
+  deleteUser(id: string) {
+    return this.prisma.user.deleteMany({
+      where: { id },
+    });
   }
 
-  editUser(user: User, newPass: string) {
+  pipeUser(user: UserFromDb) {
+    delete user.password;
+    return {
+      ...user,
+      createdAt: +user.createdAt,
+      updatedAt: +user.updatedAt
+    };
+  }
+
+  isUser(id: string) {
+    return this.prisma.user.findUnique({ where: { id: id } });
+  }
+
+  async editUser(user: UserFromDb, newPass: string) {
     user.password = newPass;
-    user.updatedAt = new Date().getTime();
     user.version++;
-    const clone = {...user};
+    await this.prisma.user.update({
+      data: {
+        ...user,
+        updatedAt: new Date().getTime().toString(),
+        createdAt: user.createdAt.toString()
+      },
+      where: {
+        id: user.id,
+      },
+    });
+    const clone = { ...user };
     delete clone.password;
     return clone;
   }
 
-  addUser(userDto: CreateUserDto) {
-    const user = {
+  async addUser(userDto: CreateUserDto) {
+    const user: User = {
       ...userDto,
       id: generateUid(),
       version: 1,
       createdAt: new Date().getTime(),
       updatedAt: new Date().getTime(),
     };
-    db.users.push(user);
-    const clone = {...user};
-    delete clone.password;
-    return clone;
+    const createdUser = await this.prisma.user.create({
+      data: {
+        ...user,
+        createdAt: user.createdAt.toString(),
+        updatedAt: user.updatedAt.toString(),
+      },
+    });
+    delete createdUser.password;
+    return createdUser;
   }
 
-  isUser(id: string) {
-    return db.users.find(x => x.id === id);
+  constructor(private prisma: PrismaService) {
   }
 
 }

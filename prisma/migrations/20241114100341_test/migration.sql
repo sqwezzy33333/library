@@ -3,9 +3,9 @@ CREATE TABLE "User" (
     "id" UUID NOT NULL,
     "login" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "varsion" INTEGER NOT NULL,
-    "createdAt" INTEGER NOT NULL,
-    "updatedAt" INTEGER NOT NULL,
+    "version" INTEGER NOT NULL,
+    "createdAt" TEXT NOT NULL,
+    "updatedAt" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -38,4 +38,25 @@ CREATE TABLE "Album" (
     "artistId" TEXT,
 
     CONSTRAINT "Album_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Album_Favorite" (
+    "id" UUID NOT NULL,
+
+    CONSTRAINT "Album_Favorite_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Track_Favorite" (
+    "id" UUID NOT NULL,
+
+    CONSTRAINT "Track_Favorite_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Artist_Favorite" (
+    "id" UUID NOT NULL,
+
+    CONSTRAINT "Artist_Favorite_pkey" PRIMARY KEY ("id")
 );

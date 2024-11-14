@@ -1,8 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { db } from '../../../db/db';
 import { generateUid } from '../../../shared/utils';
 import { Track, TrackDto } from '../models';
-import { PrismaService } from '../../prisma/prisma.service';
+import { PrismaService } from '../../../prisma/prisma.service';
 
 @Injectable()
 export class TrackService {
@@ -15,7 +14,19 @@ export class TrackService {
     return this.prisma.track.findUnique({ where: { id } })
   }
 
+  async existFavorite(id: string) {
+    return this.prisma.track_Favorite.findUnique({
+      where: { id }
+    })
+  }
+
   async deleteTrack(id: string) {
+    const existFavTrack = await this.existFavorite(id);
+
+    if(existFavTrack) {
+      await this.prisma.track_Favorite.delete({ where: { id } });
+    }
+
     return this.prisma.track.delete({
       where: {
         id,
@@ -57,10 +68,6 @@ export class TrackService {
       data: track,
     });
     return track;
-  }
-
-  isTrack(id: string) {
-    return db.tracks.find(x => x.id === id);
   }
 
   constructor(private prisma: PrismaService) {
