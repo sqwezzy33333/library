@@ -1,6 +1,20 @@
 version: '3.0'
 
 services:
+  main:
+    container_name: main
+    build:
+      context: .
+    env_file:
+      - .env
+    volumes:
+      - ./src:/app/src
+    ports:
+      - "${PORT}:${PORT}"
+    command: npm run start:dev
+    depends_on:
+      - postgres
+
   postgres:
     container_name: postgres
     image: postgres
