@@ -1,48 +1,49 @@
-import { Injectable } from "@nestjs/common";
-import { db } from "../../../db/db";
-import { generateUid } from "../../../shared/utils";
-import { Artist, ArtistDto } from "../models";
+import { Injectable } from '@nestjs/common';
+import { generateUid } from '../../../shared/utils';
+import { ArtistDto } from '../models';
+import { PrismaService } from '../../../prisma/prisma.service';
+import { Artist } from '@prisma/client';
 
 @Injectable()
 export class ArtistService {
 
   getArtists() {
-    return db.artists;
+    return this.prisma.artist.findMany({
+      select: {
+        id: true,
+        name: true,
+        grammy: true,
+      },
+    });
   }
 
-  deleteArtist(artist: Artist) {
-    const id = artist.id;
-    db.artists.splice(db.artists.indexOf(artist));
-    db.tracks.forEach(track => {
-      if(track.artistId === id) {
-        track.artistId = null;
-      }
-    })
-    db.albums.forEach(album => {
-      if(album.artistId === id) {
-        album.artistId = null;
-      }
-    })
-    db.favorites.artists = db.favorites.artists.filter(favArtist => favArtist.id !== artist.id);
+  deleteArtist(id: string) {
+    return this.prisma.artist.delete({ where: { id } });
   }
 
   editArtist(artist: Artist, artistDto: ArtistDto) {
     artist.grammy = artistDto.grammy;
     artist.name = artistDto.name;
-    return artist;
+    return this.prisma.artist.update({ where: { id: artist.id }, data: artist });
   }
 
-  addArtist(artistDto: ArtistDto) {
+  async addArtist(artistDto: ArtistDto) {
     const artist: Artist = {
       ...artistDto,
       id: generateUid(),
+      isFav: false,
     };
-    db.artists.push(artist);
+    await this.prisma.artist.create({ data: artist });
+
+    delete artist.isFav;
     return artist;
   }
 
-  isArtist(id: string) {
-    return db.artists.find(x => x.id === id);
+  getArtist(id: string) {
+    return this.prisma.artist.findUnique({ where: { id: id } });
+  }
+
+  constructor(private prisma: PrismaService) {
   }
 
 }

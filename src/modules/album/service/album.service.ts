@@ -1,29 +1,30 @@
-import { Injectable } from "@nestjs/common";
-import { db } from "../../../db/db";
-import { generateUid } from "../../../shared/utils";
-import { Album, AlbumDto } from "../models";
+import { Injectable } from '@nestjs/common';
+import { generateUid } from '../../../shared/utils';
+import { AlbumDto } from '../models';
+import { PrismaService } from '../../../prisma/prisma.service';
+import { Album } from 'prisma/prisma-client';
 
 @Injectable()
 export class AlbumService {
 
   getAlbums() {
-    return db.users;
+    return this.prisma.album.findMany({
+      select: {
+        id: true,
+        name: true,
+        year: true,
+        artistId: true,
+      },
+    });
   }
 
-  deleteAlbum(album: Album) {
-    db.albums.splice(db.albums.indexOf(album), 1);
-    db.tracks.forEach((track) => {
-      if (track.albumId === album.id) {
-        track.albumId = null;
-      }
-    });
-
-    db.favorites.albums = db.favorites.albums.filter(favAlbum => favAlbum.id !== album.id);
+  deleteAlbum(id: string) {
+    return this.prisma.album.delete({ where: { id } });
   }
 
   editAlbum(album: Album, albumDto: AlbumDto) {
-    album = { artistId: null, ...albumDto, id: album.id };
-    return album;
+    album = { ...album, ...albumDto };
+    return this.prisma.album.update({ where: { id: album.id }, data: album });
   }
 
   addAlbum(albumDto: AlbumDto) {
@@ -31,13 +32,18 @@ export class AlbumService {
       artistId: null,
       ...albumDto,
       id: generateUid(),
+      isFav: false,
     };
-    db.albums.push(album);
-    return album;
+    return this.prisma.album.create({ data: album });
   }
 
-  isAlbum(id: string) {
-    return db.albums.find(x => x.id === id);
+  getAlbum(id: string) {
+    return this.prisma.album.findUnique({ where: { id: id } });
+  }
+
+  constructor(
+    private prisma: PrismaService,
+  ) {
   }
 
 }

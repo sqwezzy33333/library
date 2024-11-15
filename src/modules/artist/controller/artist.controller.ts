@@ -8,13 +8,13 @@ import {
   Param,
   Post, Put,
   ValidationPipe,
-} from "@nestjs/common";
-import { ArtistService } from "../service/artist.service";
-import { isUUID } from "class-validator";
+} from '@nestjs/common';
+import { ArtistService } from '../service/artist.service';
+import { isUUID } from 'class-validator';
 import { ArtistDto, ArtistResponse } from '../models';
 import { ApiOkResponse } from '@nestjs/swagger';
 
-@Controller("artist")
+@Controller('artist')
 export class ArtistController {
 
   @Get()
@@ -32,42 +32,43 @@ export class ArtistController {
     return this.artistService.addArtist(createArtistDto);
   }
 
-  @Get(":id")
+  @Get(':id')
   @ApiOkResponse({ type: ArtistResponse })
-  async findOne(@Param("id") id: string) {
-    const artist = this.artistService.isArtist(id);
+  async findOne(@Param('id') id: string) {
     if (!isUUID(id)) {
-      throw new BadRequestException("Invalid UUID");
+      throw new BadRequestException('Invalid UUID');
     }
+    const artist = await this.artistService.getArtist(id);
 
     if (!artist) {
-      throw new NotFoundException("Artist not found");
+      throw new NotFoundException('Artist not found');
     }
+    delete artist.isFav;
     return artist;
   }
 
-  @Delete(":id")
+  @Delete(':id')
   @HttpCode(204)
-  async deleteOne(@Param("id") id: string) {
+  async deleteOne(@Param('id') id: string) {
     if (!isUUID(id)) {
-      throw new BadRequestException("Invalid UUID");
+      throw new BadRequestException('Invalid UUID');
     }
-    const artist = this.artistService.isArtist(id);
+    const artist = await this.artistService.getArtist(id);
     if (!artist) {
-      throw new NotFoundException("Artist not found");
+      throw new NotFoundException('Artist not found');
     }
-    return this.artistService.deleteArtist(artist);
+    return this.artistService.deleteArtist(id);
   }
 
-  @Put(":id")
+  @Put(':id')
   @ApiOkResponse({ type: ArtistResponse })
-  async editArtist(@Param("id") id: string, @Body(ValidationPipe) body: ArtistDto) {
+  async editArtist(@Param('id') id: string, @Body(ValidationPipe) body: ArtistDto) {
     if (!isUUID(id)) {
-      throw new BadRequestException("Invalid UUID");
+      throw new BadRequestException('Invalid UUID');
     }
-    const artist = this.artistService.isArtist(id);
+    const artist = await this.artistService.getArtist(id);
     if (!artist) {
-      throw new NotFoundException("Artist not found");
+      throw new NotFoundException('Artist not found');
     }
     return this.artistService.editArtist(artist, body);
   }

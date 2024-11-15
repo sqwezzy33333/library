@@ -14,8 +14,8 @@ CREATE TABLE "User" (
 CREATE TABLE "Track" (
     "id" UUID NOT NULL,
     "name" TEXT NOT NULL,
-    "artistId" UUID NOT NULL,
-    "albumId" UUID NOT NULL,
+    "artistId" UUID,
+    "albumId" UUID,
     "duration" INTEGER NOT NULL,
     "isFav" BOOLEAN NOT NULL,
 
@@ -38,7 +38,7 @@ CREATE TABLE "Album" (
     "name" TEXT NOT NULL,
     "year" INTEGER NOT NULL,
     "isFav" BOOLEAN NOT NULL,
-    "artistId" UUID NOT NULL,
+    "artistId" UUID,
 
     CONSTRAINT "Album_pkey" PRIMARY KEY ("id")
 );

@@ -35,7 +35,16 @@ export class TrackController {
   @Get(':id')
   @ApiOkResponse({ description: 'Return track', type: TrackResponse })
   async findOne(@Param('id') id: string) {
-    return this.trackService.getTrack(id);
+    if (!isUUID(id)) {
+      throw new BadRequestException('Invalid UUID');
+    }
+    const track = await this.trackService.getTrack(id);
+
+    if (!track) {
+      throw new NotFoundException('Track not found');
+    }
+
+    return track
   }
 
   @Delete(':id')
@@ -44,7 +53,7 @@ export class TrackController {
     if (!isUUID(id)) {
       throw new BadRequestException('Invalid UUID');
     }
-    const exist = await this.trackService.exist(id);
+    const exist = await this.trackService.getTrack(id);
 
     if (!exist) {
       throw new NotFoundException('Track not found');
@@ -58,7 +67,7 @@ export class TrackController {
     if (!isUUID(id)) {
       throw new BadRequestException('Invalid UUID');
     }
-    const exist = await this.trackService.exist(id);
+    const exist = await this.trackService.getTrack(id);
 
     if (!exist) {
       throw new NotFoundException('Track not found');

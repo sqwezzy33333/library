@@ -1,12 +1,6 @@
 import { IsBoolean, IsNotEmpty, IsString } from "class-validator";
 import { ApiProperty } from '@nestjs/swagger';
 
-export interface Artist {
-  id: string;
-  name: string;
-  grammy: boolean;
-}
-
 export class ArtistDto {
   @ApiProperty()
   @IsNotEmpty()
@@ -20,7 +14,7 @@ export class ArtistDto {
 }
 
 
-export class ArtistResponse implements Artist{
+export class ArtistResponse {
   @ApiProperty({
     default: '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed',
   })

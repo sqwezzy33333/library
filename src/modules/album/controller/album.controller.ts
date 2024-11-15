@@ -35,14 +35,14 @@ export class AlbumController {
   @Get(':id')
   @ApiOkResponse({ type: AlbumsResponse })
   async findOne(@Param('id') id: string) {
-    const album = this.albumService.isAlbum(id);
     if (!isUUID(id)) {
       throw new BadRequestException('Invalid UUID');
     }
-
+    const album = await this.albumService.getAlbum(id);
     if (!album) {
       throw new NotFoundException('User not found');
     }
+    delete album.isFav;
     return album;
   }
 
@@ -52,11 +52,11 @@ export class AlbumController {
     if (!isUUID(id)) {
       throw new BadRequestException('Invalid UUID');
     }
-    const album = this.albumService.isAlbum(id);
+    const album = await this.albumService.getAlbum(id);
     if (!album) {
       throw new NotFoundException('User not found');
     }
-    return this.albumService.deleteAlbum(album);
+    return this.albumService.deleteAlbum(id);
   }
 
   @Put(':id')
@@ -65,7 +65,7 @@ export class AlbumController {
     if (!isUUID(id)) {
       throw new BadRequestException('Invalid UUID');
     }
-    const album = this.albumService.isAlbum(id);
+    const album = await this.albumService.getAlbum(id);
     if (!album) {
       throw new NotFoundException('User not found');
     }

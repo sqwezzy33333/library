@@ -1,32 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { generateUid } from '../../../shared/utils';
-import { Track, TrackDto } from '../models';
+import { TrackDto } from '../models';
 import { PrismaService } from '../../../prisma/prisma.service';
+import { Track } from '@prisma/client';
 
 @Injectable()
 export class TrackService {
 
-  getTracks() {
+  async getTracks() {
     return this.prisma.track.findMany();
   }
 
-  async exist(id: string) {
-    return this.prisma.track.findUnique({ where: { id } })
-  }
-
-  async existFavorite(id: string) {
-    return this.prisma.track_Favorite.findUnique({
-      where: { id }
-    })
-  }
-
   async deleteTrack(id: string) {
-    const existFavTrack = await this.existFavorite(id);
-
-    if(existFavTrack) {
-      await this.prisma.track_Favorite.delete({ where: { id } });
-    }
-
     return this.prisma.track.delete({
       where: {
         id,
@@ -46,26 +31,21 @@ export class TrackService {
   }
 
   async getTrack(id: string) {
-    const track = await this.prisma.track.findUnique({
+    return this.prisma.track.findUnique({
       where: { id: id },
     });
-    if (!track) {
-      return new NotFoundException('No track');
-    }
-    return track;
-
   }
 
 
   async addTrack(trackDto: TrackDto) {
     const track: Track = {
-      artistId: null,
-      albumId: null,
       ...trackDto,
       id: generateUid(),
+      isFav: false
     };
     await this.prisma.track.create({
       data: track,
+
     });
     return track;
   }

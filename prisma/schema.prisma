@@ -12,36 +12,36 @@ model User {
   login     String
   password  String
   version   Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt String
+  updatedAt String
 }
 
 model Track {
-  id             String           @id @db.Uuid
-  name           String
-  artist         Artist?          @relation(fields: [artistId], references: [id], onDelete: Cascade)
-  artistId       String @db.Uuid
-  album          Album?           @relation(fields: [albumId], references: [id], onDelete: Cascade)
-  albumId        String @db.Uuid
-  duration       Int
-  isFav Boolean
+  id       String  @id @db.Uuid
+  name     String
+  artist   Artist? @relation(fields: [artistId], references: [id], onDelete: SetNull)
+  artistId String? @db.Uuid
+  album    Album?  @relation(fields: [albumId], references: [id], onDelete: SetNull)
+  albumId  String? @db.Uuid
+  duration Int
+  isFav    Boolean
 }
 
 model Artist {
-  id              String            @id @unique @db.Uuid
-  name            String
-  grammy          Boolean
-  isFav Boolean
-  Track           Track[]
-  Album           Album[]
+  id     String  @id @unique @db.Uuid
+  name   String
+  grammy Boolean
+  isFav  Boolean
+  Track  Track[]
+  Album  Album[]
 }
 
 model Album {
-  id             String           @id @db.Uuid
-  name           String
-  year           Int
-  isFav Boolean
-  artist         Artist?          @relation(fields: [artistId], references: [id], onDelete: Cascade )
-  artistId       String @db.Uuid
-  Track          Track[]
+  id       String  @id @db.Uuid
+  name     String
+  year     Int
+  isFav    Boolean
+  artist   Artist? @relation(fields: [artistId], references: [id], onDelete: SetNull)
+  artistId String? @db.Uuid
+  Track    Track[]
 }
