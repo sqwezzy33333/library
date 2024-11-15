@@ -7,14 +7,24 @@ import { Album } from 'prisma/prisma-client';
 @Injectable()
 export class AlbumService {
 
-  getAlbums() {
+  async getAlbums(where = {}) {
     return this.prisma.album.findMany({
+      where,
       select: {
         id: true,
         name: true,
         year: true,
         artistId: true,
       },
+    });
+  }
+
+  changeFav(id: string, value: boolean) {
+    return this.prisma.album.update({
+      where: { id },
+      data: {
+        isFav: value,
+      }
     });
   }
 

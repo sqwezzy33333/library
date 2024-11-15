@@ -1,24 +1,17 @@
 
 import { ApiProperty } from '@nestjs/swagger';
-import { Artist, Track } from '@prisma/client';
-import { Album } from 'prisma/prisma-client';
 import { ArtistResponse } from '../../artist/models';
 import { AlbumsResponse } from '../../album/models';
 import { TrackResponse } from '../../track/models';
 
-export interface Favorites {
-  artists: Artist[];
-  albums: Album[];
-  tracks: Track[];
-}
 
-export class FavoritesResponse implements Favorites{
+export class FavoritesResponse {
   @ApiProperty({type: [ArtistResponse]})
-  artists: Artist[];
+  artists: ArtistResponse[];
 
   @ApiProperty({type: [AlbumsResponse]})
-  albums: Album[];
+  albums: AlbumsResponse[];
 
   @ApiProperty({type: [TrackResponse]})
-  tracks: Track[];
+  tracks: TrackResponse[];
 }

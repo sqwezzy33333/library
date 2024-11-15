@@ -6,6 +6,7 @@ import { PrismaModule } from '../../prisma/prisma.module';
 @Module({
   controllers: [AlbumController],
   providers: [AlbumService],
-  imports: [PrismaModule]
+  imports: [PrismaModule],
+  exports: [AlbumService],
 })
 export class AlbumModule {}

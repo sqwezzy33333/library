@@ -7,8 +7,9 @@ import { Artist } from '@prisma/client';
 @Injectable()
 export class ArtistService {
 
-  getArtists() {
+  async getArtists(where = {}) {
     return this.prisma.artist.findMany({
+      where,
       select: {
         id: true,
         name: true,
@@ -17,14 +18,23 @@ export class ArtistService {
     });
   }
 
-  deleteArtist(id: string) {
+  async deleteArtist(id: string) {
     return this.prisma.artist.delete({ where: { id } });
   }
 
-  editArtist(artist: Artist, artistDto: ArtistDto) {
+  async editArtist(artist: Artist, artistDto: ArtistDto) {
     artist.grammy = artistDto.grammy;
     artist.name = artistDto.name;
     return this.prisma.artist.update({ where: { id: artist.id }, data: artist });
+  }
+
+  async changeFav(id: string, value: boolean) {
+    return this.prisma.artist.update({
+      where: { id },
+      data: {
+        isFav: value,
+      }
+    });
   }
 
   async addArtist(artistDto: ArtistDto) {
