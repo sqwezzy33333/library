@@ -5,6 +5,7 @@ networks:
 
 services:
   app:
+    image: sqwezzy/nodejs2024q3-service
     restart: always
     build:
       context: .
