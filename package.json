@@ -24,6 +24,7 @@
     "docker:scan": "docker scout cves postgres:13.5 && docker scout cves nodejs2024q3-service"
   },
   "dependencies": {
+    "@nestjs/cli": "10.4.7",
     "@nestjs/common": "10.4.7",
     "@nestjs/core": "10.4.7",
     "@nestjs/jwt": "10.2.0",
@@ -47,7 +48,6 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@nestjs/cli": "10.4.7",
     "@nestjs/schematics": "10.2.3",
     "@nestjs/testing": "10.4.7",
     "@types/bcrypt": "^5.0.0",

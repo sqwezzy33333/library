@@ -1,10 +1,9 @@
 .git
-node_modules
+/node_modules
 dist
-/dist
 .eslint*
 .prettier*
 .gitignore
-Dockerfile
-docker-compose.yml
 README.md
+.idea
+test

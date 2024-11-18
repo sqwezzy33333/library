@@ -11,6 +11,3 @@ COPY . .
 RUN npx prisma generate
 
 EXPOSE 4000
-
-# CMD ["npm", "run", "migrate:start:dev"]
-# CMD ["npm", "run", "start:nodemon"]
