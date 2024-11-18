@@ -10,9 +10,17 @@
 
 ```
 Clone repository ( git clone https://github.com/sqwezzy33333/nodejs2024Q3-service )
+```
+```
 Run npm install
+```
+```
 Create .env file based on .env.example
+```
+```
 To start the docker container: docker-compose up
+```
+```
 To test application: npm run test
 ```
 
