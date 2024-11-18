@@ -1,13 +1,16 @@
-FROM node:22.9-alpine
-LABEL authors="kornev.se"
+FROM node:18-alpine
 
-WORKDIR /app
-COPY package*.json ./
-COPY prisma ./prisma/
+WORKDIR /usr/app
 
-RUN npm install
+COPY package.json package-lock.json ./
+
+RUN npm install --production && npm cache clean --force
 
 COPY . .
 
-CMD ["npm", "run", "start"]
+RUN npx prisma generate
 
+EXPOSE 4000
+
+# CMD ["npm", "run", "migrate:start:dev"]
+# CMD ["npm", "run", "start:nodemon"]
