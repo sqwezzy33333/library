@@ -10,7 +10,7 @@ datasource db {
 
 model User {
   id        String @id @db.Uuid
-  login     String
+  login     String @unique
   password  String
   version   Int
   createdAt String
@@ -25,24 +25,24 @@ model Track {
   album    Album?  @relation(fields: [albumId], references: [id], onDelete: SetNull)
   albumId  String? @db.Uuid
   duration Int
-  isFav    Boolean
+  isFav    Boolean @default(false)
 }
 
 model Artist {
   id     String  @id @unique @db.Uuid
   name   String
   grammy Boolean
-  isFav  Boolean
   Track  Track[]
   Album  Album[]
+  isFav  Boolean @default(false)
 }
 
 model Album {
   id       String  @id @db.Uuid
   name     String
   year     Int
-  isFav    Boolean
   artist   Artist? @relation(fields: [artistId], references: [id], onDelete: SetNull)
   artistId String? @db.Uuid
   Track    Track[]
+  isFav    Boolean @default(false)
 }
