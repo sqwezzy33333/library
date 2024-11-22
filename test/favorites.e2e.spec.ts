@@ -486,7 +486,6 @@ describe('Favorites (e2e)', () => {
       const tracksDeletionFromFavoritesResponse = await unauthorizedRequest
         .delete(tracksRoutes.delete(randomUUID))
         .set(commonHeaders);
-
       expect(tracksDeletionFromFavoritesResponse.status).toBe(
         StatusCodes.NOT_FOUND,
       );

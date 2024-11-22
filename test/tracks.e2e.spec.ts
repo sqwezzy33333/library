@@ -259,7 +259,6 @@ describe('Tracks (e2e)', () => {
       const searchResponse = await unauthorizedRequest
         .get(tracksRoutes.getById(id))
         .set(commonHeaders);
-
       expect(searchResponse.statusCode).toBe(StatusCodes.NOT_FOUND);
     });
 

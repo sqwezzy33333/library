@@ -97,6 +97,7 @@ describe('Refresh (e2e)', () => {
 
     it('should fail with 401 (no refresh token)', async () => {
       const response = await request.post(authRoutes.refresh).send();
+      debugger
       expect(response.statusCode).toBe(HttpStatus.UNAUTHORIZED);
     });
 
